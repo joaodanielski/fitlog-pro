@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; // <--- O Link estava aqui?
 import { supabase } from "../services/supabase";
-import { ArrowLeft, Plus, Trash2, Save } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Play } from "lucide-react";
 
 export function WorkoutDetails() {
-  const { id } = useParams(); // Pega o ID da URL
-  const navigate = useNavigate();
+  const { id } = useParams();
 
   const [workoutName, setWorkoutName] = useState("");
   const [exercises, setExercises] = useState([]);
@@ -66,6 +65,7 @@ export function WorkoutDetails() {
       setNewExercise({ name: "", sets: 3, reps: "10", weight: "0" }); // Reset
     } catch (error) {
       alert("Erro ao adicionar.");
+      console.error(error);
     }
   }
 
@@ -95,8 +95,23 @@ export function WorkoutDetails() {
       </header>
 
       <main className="max-w-md mx-auto p-4 space-y-4">
+        {/* Botão de Iniciar Treino */}
+        <Link
+          to={`/run/${id}`}
+          className="w-full bg-emerald-500 hover:bg-emerald-400 text-zinc-950 font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-emerald-500/20 transition-transform active:scale-95"
+        >
+          <Play size={20} fill="currentColor" />
+          INICIAR TREINO
+        </Link>
+
         {/* Lista de Exercícios */}
         <div className="space-y-3">
+          {exercises.length === 0 && !loading && (
+            <p className="text-center text-zinc-500 py-4 text-sm">
+              Nenhum exercício cadastrado ainda.
+            </p>
+          )}
+
           {exercises.map((ex) => (
             <div
               key={ex.id}

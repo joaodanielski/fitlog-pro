@@ -1,27 +1,22 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { PrivateRoute } from "./components/PrivateRoute";
+
+// Páginas
 import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
-import { PrivateRoute } from "./components/PrivateRoute";
 import { WorkoutDetails } from "./pages/WorkoutDetails";
+import { RunWorkout } from "./pages/RunWorkout";
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route
-            path="/workout/:id"
-            element={
-              <PrivateRoute>
-                <WorkoutDetails />
-              </PrivateRoute>
-            }
-          />
-
+          {/* Rota Pública */}
           <Route path="/login" element={<Login />} />
 
-          {/* Rota Protegida */}
+          {/* Rotas Protegidas (Dentro do PrivateRoute) */}
           <Route
             path="/dashboard"
             element={
@@ -31,6 +26,25 @@ function App() {
             }
           />
 
+          <Route
+            path="/workout/:id"
+            element={
+              <PrivateRoute>
+                <WorkoutDetails />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/run/:id"
+            element={
+              <PrivateRoute>
+                <RunWorkout />
+              </PrivateRoute>
+            }
+          />
+
+          {/* Redirecionamento padrão */}
           <Route path="/" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
