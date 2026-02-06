@@ -8,12 +8,10 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null)
       setLoading(false)
     })
-
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user ?? null)
@@ -23,19 +21,17 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  // Função de Login
+  // ESSA É A FUNÇÃO QUE ESTAVA FALTANDO
   const signInWithGoogle = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-
         redirectTo: `${window.location.origin}/dashboard`
       }
     })
     if (error) throw error
   }
 
-  // Função de Logout
   const signOut = async () => {
     await supabase.auth.signOut()
   }
