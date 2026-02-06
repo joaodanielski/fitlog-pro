@@ -1,19 +1,19 @@
-import { useState } from 'react'
-import { useAuth } from '../contexts/AuthContext'
-import { Dumbbell, Loader2 } from 'lucide-react'
+import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
+import { Dumbbell, Loader2 } from "lucide-react";
 
 export function Login() {
-  const { signInWithGoogle } = useAuth()
-  const [isLoggingIn, setIsLoggingIn] = useState(false)
+  const { signInWithGoogle } = useAuth();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
 
   async function handleLogin() {
     try {
-      setIsLoggingIn(true)
-      await signInWithGoogle()
+      setIsLoggingIn(true);
+      await signInWithGoogle();
     } catch (error) {
-      alert('Erro ao tentar fazer login. Verifique o console.')
-      console.error(error)
-      setIsLoggingIn(false)
+      alert("Erro ao tentar fazer login. Verifique o console.");
+      console.error(error);
+      setIsLoggingIn(false);
     }
   }
 
@@ -21,20 +21,17 @@ export function Login() {
     <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center p-4">
       {/* Container Central */}
       <div className="w-full max-w-sm text-center space-y-10">
-        
         {/* Logo e Título */}
         <div className="flex flex-col items-center gap-4">
           <div className="p-4 bg-zinc-900 rounded-2xl border border-zinc-800 shadow-xl shadow-emerald-500/10">
             <Dumbbell className="size-10 text-emerald-500" />
           </div>
-          
+
           <div className="space-y-1">
             <h1 className="text-3xl font-bold text-white tracking-tight">
               FitLog Pro
             </h1>
-            <p className="text-zinc-400">
-              Gerencie seus treinos e evolução.
-            </p>
+            <p className="text-zinc-400">Gerencie seus treinos e evolução.</p>
           </div>
         </div>
 
@@ -47,7 +44,6 @@ export function Login() {
           {isLoggingIn ? (
             <Loader2 className="size-5 animate-spin" />
           ) : (
-            
             <svg className="size-5" viewBox="0 0 24 24">
               <path
                 fill="currentColor"
@@ -67,10 +63,9 @@ export function Login() {
               />
             </svg>
           )}
-          {isLoggingIn ? 'Conectando...' : 'Entrar com Google'}
+          {isLoggingIn ? "Conectando..." : "Entrar com Google"}
         </button>
-
       </div>
     </div>
-  )
+  );
 }
