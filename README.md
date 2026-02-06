@@ -1,16 +1,90 @@
-# React + Vite
+FitLog Pro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+PWA (Progressive Web App) para gestão de treinos de musculação, focado em performance mobile-first e acompanhamento de carga.
 
-Currently, two official plugins are available:
+Live Demo: Acesse o Projeto
+Funcionalidades
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+    Autenticação: Login via Google (OAuth) com Supabase.
 
-## React Compiler
+    Gestão de Fichas: Criação e edição de treinos personalizados.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+    Execução de Treino: Interface com cronômetro de descanso integrado.
 
-## Expanding the ESLint configuration
+    Evolução: Gráficos de progressão de carga e histórico automático.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+    PWA: Instalável em dispositivos iOS e Android.
+
+    Dark Mode: Interface otimizada para baixo consumo de bateria.
+
+Tecnologias
+
+    Frontend: React (Vite) e Tailwind CSS v4.
+
+    Navegação: React Router DOM.
+
+    Gráficos/Ícones: Recharts e Lucide React.
+
+    Backend: Supabase (PostgreSQL, Auth e RLS).
+
+    Deploy: Vercel.
+
+Configuração Local
+
+    Clone e Instale:
+    Bash
+
+    git clone https://github.com/SEU-USUARIO/fitlog-pro.git
+    cd fitlog-pro
+    npm install
+
+    Variáveis de Ambiente: Crie um arquivo .env.local:
+    Snippet de código
+
+    VITE_SUPABASE_URL=sua_url
+    VITE_SUPABASE_ANON_KEY=sua_chave
+
+    Execute:
+    Bash
+
+    npm run dev
+
+Estrutura de Dados (SQL)
+
+Execute no editor SQL do Supabase para criar as tabelas necessárias:
+SQL
+
+create table workouts (
+id uuid default gen_random_uuid() primary key,
+user_id uuid references auth.users not null,
+name text not null,
+created_at timestamptz default now()
+);
+
+create table exercises (
+id uuid default gen_random_uuid() primary key,
+workout_id uuid references workouts on delete cascade not null,
+name text not null,
+sets int default 3,
+reps text,
+weight text
+);
+
+create table workout_history (
+id uuid default gen_random_uuid() primary key,
+user_id uuid references auth.users not null,
+workout_name text not null,
+finished_at timestamptz default now()
+);
+
+create table exercise_history (
+id uuid default gen_random_uuid() primary key,
+user_id uuid references auth.users not null,
+exercise_name text not null,
+weight text,
+sets int,
+reps text,
+created_at timestamptz default now()
+);
+
+    Nota: Ative o RLS (Row Level Security) em todas as tabelas para garantir a privacidade dos dados.
