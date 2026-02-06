@@ -3,6 +3,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { supabase } from "../services/supabase";
 import { Plus, Trash2, Dumbbell, Calendar, LogOut } from "lucide-react";
 import { Link } from "react-router-dom";
+import { BottomMenu } from "../components/BottomMenu"; // <--- Importação Nova
 
 export function Dashboard() {
   const { user, signOut } = useAuth();
@@ -69,7 +70,7 @@ export function Dashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-zinc-950 text-zinc-50 pb-20">
+    <div className="min-h-screen bg-zinc-950 text-zinc-50 pb-24">
       {/* Header Fixo */}
       <header className="p-4 border-b border-zinc-800 bg-zinc-900/80 sticky top-0 backdrop-blur-md z-10 flex items-center justify-between max-w-md mx-auto w-full">
         <h1 className="text-xl font-bold flex items-center gap-2">
@@ -144,7 +145,6 @@ export function Dashboard() {
                 key={workout.id}
                 className="bg-zinc-900/50 border border-zinc-800/50 p-4 rounded-xl flex items-center justify-between group hover:border-zinc-700 transition-all"
               >
-                {/* AQUI ESTAVA O PULO DO GATO: Usar o Link em vez de div */}
                 <Link
                   to={`/workout/${workout.id}`}
                   className="flex-1 cursor-pointer"
@@ -170,6 +170,9 @@ export function Dashboard() {
           </div>
         )}
       </main>
+
+      {/* Navegação Inferior */}
+      <BottomMenu />
     </div>
   );
 }

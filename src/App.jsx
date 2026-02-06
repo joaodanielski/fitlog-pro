@@ -7,6 +7,8 @@ import { Login } from "./pages/Login";
 import { Dashboard } from "./pages/Dashboard";
 import { WorkoutDetails } from "./pages/WorkoutDetails";
 import { RunWorkout } from "./pages/RunWorkout";
+import { History } from "./pages/History"; // <--- Nova
+import { Stats } from "./pages/Stats"; // <--- Nova
 
 function App() {
   return (
@@ -16,7 +18,7 @@ function App() {
           {/* Rota Pública */}
           <Route path="/login" element={<Login />} />
 
-          {/* Rotas Protegidas (Dentro do PrivateRoute) */}
+          {/* Rotas Protegidas */}
           <Route
             path="/dashboard"
             element={
@@ -40,6 +42,24 @@ function App() {
             element={
               <PrivateRoute>
                 <RunWorkout />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/history"
+            element={
+              <PrivateRoute>
+                <History />
+              </PrivateRoute>
+            }
+          />
+
+          <Route
+            path="/stats"
+            element={
+              <PrivateRoute>
+                <Stats />
               </PrivateRoute>
             }
           />
